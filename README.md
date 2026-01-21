@@ -20,6 +20,7 @@ https://spinning-wheel-test.vercel.app
 1. Clone the repository.
 
 2. Install dependencies:
+cd spinning-wheel
 npm install
 
 3. Run the development server:
