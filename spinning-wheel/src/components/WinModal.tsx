@@ -104,78 +104,82 @@ export function WinModal({
   if (!isOpen || !prize) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
       <div
         className="absolute inset-0 bg-foreground/60 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
       />
 
-      <div className="relative bg-card rounded-3xl shadow-elevated max-w-md w-full overflow-hidden animate-scale-in">
+      <div className="relative bg-card rounded-2xl sm:rounded-3xl shadow-elevated max-w-xs sm:max-w-sm md:max-w-md w-full overflow-hidden animate-scale-in">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full hover:bg-secondary transition-colors z-10"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1 sm:p-2 rounded-full hover:bg-secondary transition-colors z-10"
           aria-label="Close modal"
         >
-          <X className="w-5 h-5 text-muted-foreground" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
         </button>
 
         {isWinner ? (
-          <div className="p-8 text-center">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center animate-float">
-              <PartyPopper className="w-10 h-10 text-primary" />
+          <div className="p-4 sm:p-6 md:p-8 text-center">
+            <div className="w-16 h-16 xs:w-20 xs:h-20 mx-auto mb-4 sm:mb-6 rounded-full bg-primary/10 flex items-center justify-center animate-float">
+              <PartyPopper className="w-8 h-8 xs:w-10 xs:h-10 text-primary" />
             </div>
 
-            <h2 className="font-display text-3xl font-bold text-foreground mb-2">
+            <h2 className="font-display text-2xl xs:text-3xl font-bold text-foreground mb-1 sm:mb-2">
               Congratulations!
             </h2>
-            <p className="text-muted-foreground mb-6">
+            <p className="text-muted-foreground text-sm sm:text-base mb-4 sm:mb-6">
               You've won an exclusive discount!
             </p>
 
-            <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl p-6 mb-8 border border-primary/20">
-              <p className="text-5xl font-display font-bold text-primary mb-2">
+            <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 border border-primary/20">
+              <p className="text-4xl xs:text-5xl font-display font-bold text-primary mb-1 sm:mb-2">
                 {prize.label}
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 Applied to your entire order
               </p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               <Button
                 onClick={onApply}
-                className="w-full bg-success hover:bg-success/90 text-success-foreground py-6 text-lg font-semibold rounded-xl"
+                className="w-full bg-success hover:bg-success/90 text-success-foreground py-5 xs:py-6 text-base xs:text-lg font-semibold rounded-lg sm:rounded-xl"
               >
                 Apply Discount
               </Button>
               <Button
                 onClick={onIgnore}
                 variant="ghost"
-                className="w-full text-muted-foreground hover:text-foreground py-4"
+                className="w-full text-muted-foreground hover:text-foreground py-3 sm:py-4 text-sm sm:text-base"
               >
                 Maybe Later
               </Button>
             </div>
 
-            <p className="text-xs text-muted-foreground mt-4">
+            <p className="text-xs text-muted-foreground mt-3 sm:mt-4">
               Your coupon will be saved for later use
             </p>
           </div>
         ) : (
-          <div className="p-8 text-center">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-secondary flex items-center justify-center">
-              <Gift className="w-10 h-10 text-muted-foreground" />
+          <div className="p-4 sm:p-6 md:p-8 text-center">
+            <div className="w-16 h-16 xs:w-20 xs:h-20 mx-auto mb-4 sm:mb-6 rounded-full bg-secondary flex items-center justify-center">
+              <Gift className="w-8 h-8 xs:w-10 xs:h-10 text-muted-foreground" />
             </div>
 
-            <h2 className="font-display text-2xl font-bold text-foreground mb-2">
+            <h2 className="font-display text-xl xs:text-2xl font-bold text-foreground mb-1 sm:mb-2">
               Better Luck Next Time!
             </h2>
-            <p className="text-muted-foreground mb-8">
+            <p className="text-muted-foreground text-sm sm:text-base mb-6 sm:mb-8">
               Don't worry, you can still enjoy our premium collection at great
               value.
             </p>
 
-            <Button onClick={onClose} variant="outline" className="px-8 py-4">
+            <Button
+              onClick={onClose}
+              variant="outline"
+              className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base"
+            >
               Continue Shopping
             </Button>
           </div>

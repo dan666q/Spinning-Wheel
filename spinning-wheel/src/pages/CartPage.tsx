@@ -139,29 +139,31 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="container max-w-4xl mx-auto px-4 py-4">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-              <span className="hidden sm:inline">Continue Shopping</span>
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline text-sm sm:text-base">
+                Continue Shopping
+              </span>
             </button>
-            <h1 className="font-display text-xl font-semibold flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5" />
+            <h1 className="font-display text-lg sm:text-xl font-semibold flex items-center gap-2">
+              <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Shopping Cart</span>
             </h1>
-            <div className="w-24" />
+            <div className="w-20 sm:w-24" />
           </div>
         </div>
       </header>
 
-      <main className="container max-w-4xl mx-auto px-4 py-8">
+      <main className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {cart.items.length === 0 ? (
-          <div className="text-center py-16">
-            <ShoppingBag className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-            <h2 className="font-display text-2xl font-semibold mb-2">
+          <div className="text-center py-12 sm:py-16">
+            <ShoppingBag className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-muted-foreground mb-4" />
+            <h2 className="font-display text-xl sm:text-2xl font-semibold mb-2">
               Your cart is empty
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-sm sm:text-base">
               Add some beautiful pieces to get started.
             </p>
           </div>
@@ -180,28 +182,30 @@ export default function CartPage() {
       </main>
 
       {isWheelModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
           <div
             className="absolute inset-0 bg-foreground/60 backdrop-blur-sm animate-fade-in"
             onClick={() => !isSpinning && setIsWheelModalOpen(false)}
           />
 
-          <div className="relative bg-card rounded-3xl shadow-elevated max-w-lg w-full p-8 animate-scale-in">
+          <div className="relative bg-card rounded-2xl sm:rounded-3xl shadow-elevated max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg w-full p-4 sm:p-6 md:p-8 animate-scale-in">
             {!isSpinning && (
               <button
                 onClick={() => setIsWheelModalOpen(false)}
-                className="absolute top-4 right-4 p-2 rounded-full hover:bg-secondary transition-colors"
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1 sm:p-2 rounded-full hover:bg-secondary transition-colors"
                 aria-label="Close modal"
               >
-                <span className="text-muted-foreground text-xl">×</span>
+                <span className="text-muted-foreground text-lg sm:text-xl">
+                  ×
+                </span>
               </button>
             )}
 
-            <div className="text-center mb-6">
-              <h2 className="font-display text-2xl font-bold text-foreground mb-2">
+            <div className="text-center mb-4 sm:mb-6">
+              <h2 className="font-display text-xl sm:text-2xl font-bold text-foreground mb-1 sm:mb-2">
                 Spin to Win!
               </h2>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-sm sm:text-base">
                 Try your luck for up to 30% off your order
               </p>
             </div>

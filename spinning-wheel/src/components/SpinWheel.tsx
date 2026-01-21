@@ -88,15 +88,15 @@ export function SpinWheel({
   return (
     <div className="relative flex flex-col items-center">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 pointer-pulse">
-        <div className="w-0 h-0 border-l-[16px] border-r-[16px] border-t-[28px] border-l-transparent border-r-transparent border-t-primary drop-shadow-lg" />
+        <div className="w-0 h-0 border-l-[12px] xs:border-l-[16px] border-r-[12px] xs:border-r-[16px] border-t-[20px] xs:border-t-[28px] border-l-transparent border-r-transparent border-t-primary drop-shadow-lg" />
       </div>
 
-      <div className="relative mt-6">
+      <div className="relative mt-4 xs:mt-6">
         <div className="absolute inset-0 rounded-full wheel-glow scale-105 opacity-50" />
 
         <div
           ref={wheelRef}
-          className="relative w-72 h-72 md:w-80 md:h-80 rounded-full wheel-glow border-4 border-primary/30 spin-wheel overflow-hidden"
+          className="relative w-64 h-64 xs:w-72 xs:h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full wheel-glow border-4 border-primary/30 spin-wheel overflow-hidden"
           style={{
             background: wheelGradient(),
             transform: `rotate(${rotation}deg)`,
@@ -116,7 +116,7 @@ export function SpinWheel({
                 }}
               >
                 <span
-                  className="text-xs md:text-sm font-bold drop-shadow-md px-1 whitespace-nowrap"
+                  className="text-[10px] xs:text-xs sm:text-sm md:text-base font-bold drop-shadow-md px-1 whitespace-nowrap"
                   style={{
                     color: getContrastColor(prize.color),
                     textShadow: "0 1px 2px rgba(0,0,0,0.3)",
@@ -128,8 +128,8 @@ export function SpinWheel({
             );
           })}
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-primary to-accent border-4 border-primary-foreground/20 shadow-elevated flex items-center justify-center">
-            <span className="font-display font-bold text-primary-foreground text-sm">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 xs:w-16 xs:h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-primary to-accent border-4 border-primary-foreground/20 shadow-elevated flex items-center justify-center">
+            <span className="font-display font-bold text-primary-foreground text-xs xs:text-sm">
               SPIN
             </span>
           </div>
@@ -139,7 +139,7 @@ export function SpinWheel({
       <button
         onClick={handleSpin}
         disabled={isSpinning}
-        className="mt-8 btn-luxury px-10 py-4 rounded-full text-primary-foreground font-display text-lg font-semibold tracking-wide disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none relative overflow-hidden"
+        className="mt-6 xs:mt-8 btn-luxury px-8 xs:px-10 py-3 xs:py-4 rounded-full text-primary-foreground font-display text-base xs:text-lg font-semibold tracking-wide disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none relative overflow-hidden"
       >
         {isSpinning ? (
           <span className="flex items-center gap-2">
