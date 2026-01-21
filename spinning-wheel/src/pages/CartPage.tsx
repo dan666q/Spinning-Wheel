@@ -7,16 +7,6 @@ import { CartSummary } from "../components/CartSummary";
 import { SpinWheel } from "../components/SpinWheel";
 import { WinModal } from "../components/WinModal";
 
-/**
- * Prize configuration for the spin wheel
- *
- * 8 segments with weighted probabilities:
- * - High discounts (25-30%) are rare
- * - Low discounts (5-10%) are common
- * - "Better Luck" segment provides gamification tension
- *
- * Probabilities sum to 1.0
- */
 const PRIZES: Prize[] = [
   {
     id: "prize-30",
@@ -76,29 +66,9 @@ const PRIZES: Prize[] = [
   },
 ];
 
-/**
- * CartPage Component
- *
- * Main page integrating:
- * - Cart summary with items and totals
- * - Spin-to-win modal with wheel
- * - Win result modal with confetti
- * - Coupon state management (in-memory only)
- *
- * Workflow:
- * 1. User sees cart with spin banner (if hasn't spun)
- * 2. Click banner → opens wheel modal
- * 3. Spin → lands on prize → shows win modal
- * 4. Apply → discount added to cart
- * 5. Ignore → coupon saved but not applied (can apply later)
- *
- * Note: Coupon state is lost on page refresh
- */
 export default function CartPage() {
-  // Cart state management
   const { cart, applyDiscount, updateQuantity, removeItem } = useCart();
 
-  // Coupon state management (in-memory only, no persistence)
   const {
     coupon,
     hasSpun,
@@ -108,38 +78,26 @@ export default function CartPage() {
     ignoreCoupon,
   } = useCoupon();
 
-  // Modal states
   const [isWheelModalOpen, setIsWheelModalOpen] = useState(false);
   const [isWinModalOpen, setIsWinModalOpen] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [wonPrize, setWonPrize] = useState<Prize | null>(null);
 
-  /**
-   * On mount: If there's an applied coupon in state, apply it to cart
-   */
   useEffect(() => {
     if (coupon && coupon.applied && coupon.percent > 0) {
       applyDiscount(coupon.percent, `${coupon.percent}% Off`);
     }
   }, [coupon, applyDiscount]);
 
-  /**
-   * Handle spin wheel click from banner
-   */
   const handleOpenWheel = useCallback(() => {
     setIsWheelModalOpen(true);
   }, []);
 
-  /**
-   * Handle wheel spin result
-   * Creates coupon from prize and shows win modal
-   */
   const handleWin = useCallback(
     (prize: Prize) => {
       setWonPrize(prize);
       createCouponFromPrize(prize);
 
-      // Close wheel modal, open win modal
       setIsWheelModalOpen(false);
       setTimeout(() => {
         setIsWinModalOpen(true);
@@ -148,9 +106,6 @@ export default function CartPage() {
     [createCouponFromPrize]
   );
 
-  /**
-   * Handle "Apply Discount" click in win modal
-   */
   const handleApplyDiscount = useCallback(() => {
     if (wonPrize && wonPrize.discountPercent > 0) {
       applyDiscount(wonPrize.discountPercent, wonPrize.label);
@@ -160,18 +115,12 @@ export default function CartPage() {
     setWonPrize(null);
   }, [wonPrize, applyDiscount, applyCoupon]);
 
-  /**
-   * Handle "Maybe Later" click in win modal
-   */
   const handleIgnoreDiscount = useCallback(() => {
     ignoreCoupon();
     setIsWinModalOpen(false);
     setWonPrize(null);
   }, [ignoreCoupon]);
 
-  /**
-   * Handle applying unapplied coupon from banner
-   */
   const handleApplyUnapplied = useCallback(() => {
     if (coupon && coupon.percent > 0) {
       applyDiscount(coupon.percent, `${coupon.percent}% Off`);
@@ -179,13 +128,9 @@ export default function CartPage() {
     }
   }, [coupon, applyDiscount, applyCoupon]);
 
-  /**
-   * Close win modal
-   */
   const handleCloseWinModal = useCallback(() => {
     setIsWinModalOpen(false);
     setWonPrize(null);
-    // If user closes without choosing, treat as ignore
     if (wonPrize && wonPrize.discountPercent > 0) {
       ignoreCoupon();
     }
@@ -193,7 +138,6 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -205,15 +149,13 @@ export default function CartPage() {
               <ShoppingBag className="w-5 h-5" />
               <span>Shopping Cart</span>
             </h1>
-            <div className="w-24" /> {/* Spacer for centering */}
+            <div className="w-24" />
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container max-w-4xl mx-auto px-4 py-8">
         {cart.items.length === 0 ? (
-          // Empty cart state
           <div className="text-center py-16">
             <ShoppingBag className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
             <h2 className="font-display text-2xl font-semibold mb-2">
@@ -237,33 +179,24 @@ export default function CartPage() {
         )}
       </main>
 
-      {/* Spin Wheel Modal */}
       {isWheelModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
           <div
             className="absolute inset-0 bg-foreground/60 backdrop-blur-sm animate-fade-in"
             onClick={() => !isSpinning && setIsWheelModalOpen(false)}
           />
 
-          {/* Modal Content */}
-          <div
-            className="relative bg-card rounded-3xl shadow-elevated max-w-lg w-full 
-                          p-8 animate-scale-in"
-          >
-            {/* Close button - hide while spinning */}
+          <div className="relative bg-card rounded-3xl shadow-elevated max-w-lg w-full p-8 animate-scale-in">
             {!isSpinning && (
               <button
                 onClick={() => setIsWheelModalOpen(false)}
-                className="absolute top-4 right-4 p-2 rounded-full hover:bg-secondary 
-                         transition-colors"
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-secondary transition-colors"
                 aria-label="Close modal"
               >
                 <span className="text-muted-foreground text-xl">×</span>
               </button>
             )}
 
-            {/* Header */}
             <div className="text-center mb-6">
               <h2 className="font-display text-2xl font-bold text-foreground mb-2">
                 Spin to Win!
@@ -273,7 +206,6 @@ export default function CartPage() {
               </p>
             </div>
 
-            {/* Spin Wheel */}
             <SpinWheel
               prizes={PRIZES}
               onWin={handleWin}
@@ -284,7 +216,6 @@ export default function CartPage() {
         </div>
       )}
 
-      {/* Win Modal */}
       <WinModal
         isOpen={isWinModalOpen}
         onClose={handleCloseWinModal}

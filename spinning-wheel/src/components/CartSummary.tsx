@@ -13,10 +13,6 @@ interface CartSummaryProps {
   onApplyUnapplied: () => void;
 }
 
-/**
- * Format price in USD with 2 decimals
- * Example: 2499.00 → "$2,499.00"
- */
 function formatPrice(amount: number): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -25,16 +21,6 @@ function formatPrice(amount: number): string {
   }).format(amount);
 }
 
-/**
- * CartSummary Component
- *
- * Displays:
- * - List of cart items with quantity controls
- * - Subtotal (with strikethrough if discount applied)
- * - Discount amount and percentage
- * - Final total (highlighted in green when discounted)
- * - Spin-to-win banner/button
- */
 export function CartSummary({
   cart,
   onSpinClick,
@@ -49,13 +35,10 @@ export function CartSummary({
 
   return (
     <div className="space-y-6">
-      {/* Spin to Win Banner - Only show if user hasn't spun yet */}
       {!hasSpun && (
         <button
           onClick={onSpinClick}
-          className="w-full banner-gradient rounded-2xl p-6 text-primary-foreground 
-                     shadow-gold hover:shadow-elevated transition-all duration-300
-                     hover:-translate-y-1 group cursor-pointer"
+          className="w-full banner-gradient rounded-2xl p-6 text-primary-foreground shadow-gold hover:shadow-elevated transition-all duration-300 hover:-translate-y-1 group cursor-pointer"
         >
           <div className="flex items-center justify-between">
             <div className="text-left">
@@ -69,10 +52,7 @@ export function CartSummary({
                 Try your luck and save on your order
               </p>
             </div>
-            <div
-              className="flex items-center gap-2 bg-background/20 rounded-full px-4 py-2
-                          group-hover:bg-background/30 transition-colors"
-            >
+            <div className="flex items-center gap-2 bg-background/20 rounded-full px-4 py-2 group-hover:bg-background/30 transition-colors">
               <Sparkles className="w-5 h-5" />
               <span className="font-semibold">Spin Now</span>
             </div>
@@ -80,7 +60,6 @@ export function CartSummary({
         </button>
       )}
 
-      {/* Unapplied Coupon Banner - Show if user has a coupon but hasn't applied it */}
       {hasUnappliedCoupon && unappliedPercent && (
         <div className="bg-success/10 border border-success/20 rounded-xl p-4 flex items-center justify-between">
           <div>
@@ -100,7 +79,6 @@ export function CartSummary({
         </div>
       )}
 
-      {/* Cart Items */}
       <div className="card-luxury p-6">
         <h2 className="font-display text-xl font-semibold mb-6">Your Cart</h2>
 
@@ -110,11 +88,7 @@ export function CartSummary({
               key={item.id}
               className="flex gap-4 pb-6 border-b border-border/50 last:border-0 last:pb-0"
             >
-              {/* Item placeholder image */}
-              <div
-                className="w-20 h-20 md:w-24 md:h-24 bg-secondary rounded-lg flex-shrink-0 
-                            flex items-center justify-center overflow-hidden"
-              >
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-secondary rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden">
                 <img
                   src={
                     item.id === "sofa-001"
@@ -137,7 +111,6 @@ export function CartSummary({
                 )}
                 <p className="font-semibold mt-2">{formatPrice(item.price)}</p>
 
-                {/* Quantity controls */}
                 <div className="flex items-center gap-3 mt-3">
                   <div className="flex items-center border border-border rounded-lg overflow-hidden">
                     <button
@@ -174,7 +147,6 @@ export function CartSummary({
                 </div>
               </div>
 
-              {/* Item total */}
               <div className="text-right">
                 <p className="font-semibold">
                   {formatPrice(item.price * item.quantity)}
@@ -185,14 +157,12 @@ export function CartSummary({
         </div>
       </div>
 
-      {/* Order Summary */}
       <div className="card-luxury p-6">
         <h2 className="font-display text-xl font-semibold mb-6">
           Order Summary
         </h2>
 
         <div className="space-y-4">
-          {/* Subtotal row */}
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground">Subtotal</span>
             <span className={hasDiscount ? "price-original" : "font-medium"}>
@@ -200,7 +170,6 @@ export function CartSummary({
             </span>
           </div>
 
-          {/* Discount row - Only show if discount applied */}
           {hasDiscount && cart.discountLabel && (
             <div className="flex justify-between items-center">
               <span className="flex items-center gap-2">
@@ -215,15 +184,12 @@ export function CartSummary({
             </div>
           )}
 
-          {/* Shipping */}
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground">Shipping</span>
             <span className="text-success font-medium">Free</span>
           </div>
 
-          {/* Divider */}
           <div className="border-t border-border pt-4 mt-4">
-            {/* Final Total */}
             <div className="flex justify-between items-center">
               <span className="font-display text-lg font-semibold">Total</span>
               <span
@@ -235,7 +201,6 @@ export function CartSummary({
               </span>
             </div>
 
-            {/* Savings message */}
             {hasDiscount && (
               <p className="text-success text-sm mt-2 text-right">
                 You're saving {formatPrice(cart.discount)}!
@@ -244,7 +209,6 @@ export function CartSummary({
           </div>
         </div>
 
-        {/* Checkout button */}
         <Button className="w-full mt-6 btn-luxury text-primary-foreground py-6 text-lg font-semibold rounded-xl">
           Proceed to Checkout
         </Button>
