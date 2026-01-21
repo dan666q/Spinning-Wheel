@@ -96,8 +96,7 @@ const PRIZES: Prize[] = [
  */
 export default function CartPage() {
   // Cart state management
-  const { cart, applyDiscount, removeDiscount, updateQuantity, removeItem } =
-    useCart();
+  const { cart, applyDiscount, updateQuantity, removeItem } = useCart();
 
   // Coupon state management (in-memory only, no persistence)
   const {
